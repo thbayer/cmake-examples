@@ -8,3 +8,4 @@ project (hello_cmake)
 
 # Add an executable
 add_executable(hello_cmake main.cpp)
+message(STATUS "Hallo Thomas ${PROJECT_SOURCE_DIR}")
