@@ -12,7 +12,12 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git branch: 'master', url: 'https://github.com/thbayer/cmake-examples.git'
-                emailext body: 'test', subject: 'Test', to: 'root@centos-server3.fe.de.bosch.com'
+                emailext body: "Current build status after checkout step: ${currentBuild.currentResult}", subject: "Jenkins Checkout", to: 'root@centos-server3.fe.de.bosch.com'
+            }
+            post {
+                failure {
+                    emailext body: "Uuups: ${currentBuild.currentResult}", subject: "Jenkins Checkout", to: 'root@centos-server3.fe.de.bosch.com'
+                }
             }
         }
 
@@ -86,7 +91,8 @@ pipeline {
 		            sh "cd 01-basic/E-installing; \
                         cmake -G \"Unix Makefiles\" -S . -B ./build; \
                         cd build; \
-                        make"
+                        make; \
+                        make install"
                 }
                 post {
                     success {
@@ -94,8 +100,6 @@ pipeline {
                     }
                 }
             }
-
-
             }
         }
     }

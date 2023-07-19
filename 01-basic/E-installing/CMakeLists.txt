@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(cmake_examples_install)
 
+
+message(NOTICE "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+
 ############################################################
 # Create a library
 ############################################################
