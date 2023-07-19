@@ -15,8 +15,11 @@ pipeline {
                 emailext body: "Current build status after checkout step: ${currentBuild.currentResult}", subject: "Jenkins Checkout", to: 'root@centos-server3.fe.de.bosch.com'
             }
             post {
-                failure {
-                    emailext body: "Uuups: ${currentBuild.currentResult}", subject: "Jenkins Checkout", to: 'root@centos-server3.fe.de.bosch.com'
+                changed {
+                    emailext attachLog: true,
+                    body: 'Please go to ${BUILD_URL} and verify the build',
+                    subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) is waiting for input',
+                    to: 'root@centos-server3'
                 }
             }
         }
@@ -91,8 +94,7 @@ pipeline {
 		            sh "cd 01-basic/E-installing; \
                         cmake -G \"Unix Makefiles\" -S . -B ./build; \
                         cd build; \
-                        make; \
-                        make install"
+                        make "
                 }
                 post {
                     success {
