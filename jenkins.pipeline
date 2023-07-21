@@ -17,8 +17,10 @@ pipeline {
             post {
                 changed {
                     emailext attachLog: true,
-                    body: 'Please go to ${BUILD_URL} and verify the build',
-                    subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) - repository change',
+                    mimeType: 'text/plain',
+                    subject: "Job '${env.JOB_NAME}' -  Build Status Change",
+                    body: "Build status of ${env.BUILD_NUMBER}: ${currentBuild.result} \
+                    Build status of previous build: ${currentBuild.previousBuild.result}",
                     to: 'root@centos-server3'
                 }
             }
@@ -26,6 +28,7 @@ pipeline {
 
         stage('Builds') {
             parallel {
+/*
             stage('Build - 01-basic/A-hello-cmake') {
                 steps {
 		            cmakeBuild \
@@ -88,7 +91,7 @@ pipeline {
                     }
                 }
             }
-
+*/
             stage('Build - 01-basic/E-installing') {
                 steps {
 		            sh "cd 01-basic/E-installing; \
