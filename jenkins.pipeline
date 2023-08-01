@@ -105,6 +105,22 @@ pipeline {
                     }
                 }
             }
+
+            stage('Build - 01-basic/F-build-type') {
+                steps {
+		            sh "cd 01-basic/F-build-type; \
+                        cmake -G \"Unix Makefiles\" -S . -B ./build; \
+                        cd build; \
+                        make "
+                }
+                post {
+                    success {
+                        sh "01-basic/F-build-type/build/cmake_examples_build_type"
+                    }
+                }
+            }
+
+
             }
         }
     }
