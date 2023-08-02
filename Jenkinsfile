@@ -8,24 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                // Get some code from a GitHub repository
-                git branch: 'master', url: 'https://github.com/thbayer/cmake-examples.git'
-                emailext body: "Current build status after checkout step: ${currentBuild.currentResult}", subject: "Jenkins Checkout", to: 'root@centos-server3.fe.de.bosch.com'
-            }
-            post {
-                changed {
-                    emailext attachLog: true,
-                    mimeType: 'text/plain',
-                    subject: "Job '${env.JOB_NAME}' -  Build Status Change",
-                    body: "Build status of ${env.BUILD_NUMBER}: ${currentBuild.result} \
-                    Build status of previous build: ${currentBuild.previousBuild.result}",
-                    to: 'root@centos-server3'
-                }
-            }
-        }
-
         stage('Builds') {
             parallel {
 /*
