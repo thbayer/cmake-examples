@@ -91,7 +91,7 @@ pipeline {
                     }
                 }
             }
-*/
+
             stage('Build - 01-basic/E-installing') {
                 steps {
 		            sh "cd 01-basic/E-installing; \
@@ -119,7 +119,20 @@ pipeline {
                     }
                 }
             }
-
+*/
+            stage('Build - 01-basic/G-compile-flags') {
+                steps {
+		            sh "cd 01-basic/G-compile-flags; \
+                        cmake -G \"Unix Makefiles\" -S . -B ./build; \
+                        cd build; \
+                        make "
+                }
+                post {
+                    success {
+                        sh "01-basic/G-compile-flags/build/cmake_examples_compile_flags"
+                    }
+                }
+            }
 
             }
         }
